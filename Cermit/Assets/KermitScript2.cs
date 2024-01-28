@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class KermitScript : MonoBehaviour
+public class KermitScript2 : MonoBehaviour
 {
     ////////////////////////////////////////////////////////////////////////////            <<--------- variables
-   
+
     [Header("Player stuff")]
     public Rigidbody2D rb;
     public float jumpForce = 0;
@@ -17,21 +17,13 @@ public class KermitScript : MonoBehaviour
     public bool m_FacingRight = true;
     public bool m_FacingLeft = false;
 
-    public int lives = 3;
-    public bool takelife = true;
+    //public int lives = 3;
+ //   public bool takelife = true;
     Vector2 savedlocalScale;
     public float playerSpeed;
     Quaternion lookQuaternion;
     [Header("trolling")]
-    public GameObject obs1;
-    public GameObject obs2;
-    public GameObject obs3;
-    public GameObject obs4;
-    public GameObject obs5;
-    public GameObject obs6;
-    public GameObject obs7;
-    public GameObject obs8;
-    public GameObject obs9;
+
 
     [Header("anims")]
     public Animator animator;
@@ -41,7 +33,7 @@ public class KermitScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         savedlocalScale = transform.localScale;
-      
+
     }
     // Update is called once per frame
     void Update()
@@ -64,26 +56,7 @@ public class KermitScript : MonoBehaviour
         var horizontalInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(horizontalInput * playerSpeed, rb.velocity.y);
 
-        if (lives == 3)
-        {
-            obs1.SetActive(true);
-            obs3.SetActive(false);
-
-        }
-        if (lives == 2)
-        {
-            obs1.SetActive(false);
-            obs2.SetActive(true);
-            obs3.SetActive(true);
-            obs8.SetActive(true);
-
-        }
-        if (lives == 1)
-        {
-            obs5.SetActive(false);
-            obs6.SetActive(true);
-            obs9.SetActive(true);
-        }
+       
 
         //if (Input.GetKey(KeyCode.A))
         //{       //when a pressed move left
@@ -102,9 +75,9 @@ public class KermitScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && isGrounded == true)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-           // animator.SetBool("isJumping", true);
-          //  GameObject jumpsParticles = Instantiate(jumpParticle, rb.transform.position, lookQuaternionJump);
-          //  Destroy(jumpsParticles, 2.0f);
+            // animator.SetBool("isJumping", true);
+            //  GameObject jumpsParticles = Instantiate(jumpParticle, rb.transform.position, lookQuaternionJump);
+            //  Destroy(jumpsParticles, 2.0f);
             jumpCount += 1;
             if (jumpCount == allowedJumps)
             {
@@ -115,12 +88,12 @@ public class KermitScript : MonoBehaviour
         if (rb.velocity.y >= 0)
         {
             rb.gravityScale = gravityScale;
-        
+
         }
         else if (rb.velocity.y < 0)
         {
             rb.gravityScale = fallingGravityScale;
-          
+
         }
 
         if (rb.velocity.x > 0.001f)
@@ -131,7 +104,8 @@ public class KermitScript : MonoBehaviour
         {
             animator.SetBool("movin", true);
         }
-        else {
+        else
+        {
             animator.SetBool("movin", false);
 
         }
@@ -142,36 +116,22 @@ public class KermitScript : MonoBehaviour
 
     }
 
-    IEnumerator takelives()
-    {
-        takelife = false;
-        lives--;
-        transform.position = new Vector2(0f, -0.619f);
-        yield return new WaitForSeconds(1.0f);
-        takelife = true;
-    }
+    //IEnumerator takelives()
+    //{
+    //    takelife = false;
+    //    lives--;
+    //    transform.position = new Vector2(0f, -0.619f);
+    //    yield return new WaitForSeconds(1.0f);
+    //    takelife = true;
+    //}
     ////////////////////////////////////////////////////////////////////////////      
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("death"))
-        {
-            StartCoroutine(takelives());
-        }
-        if (collision.gameObject.CompareTag("load1"))
-        {
-            SceneManager.LoadScene("loading 1");
-        }
+ 
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("nowj"))
-        {
-            obs4.SetActive(true);
-        }
-        if (collision.gameObject.CompareTag("wtf"))
-        {
-            obs7.SetActive(true);
-        }
+
     }
 }
