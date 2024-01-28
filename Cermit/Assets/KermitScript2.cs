@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering.Universal;
+
 public class KermitScript2 : MonoBehaviour
 {
     ////////////////////////////////////////////////////////////////////////////            <<--------- variables
@@ -23,8 +26,19 @@ public class KermitScript2 : MonoBehaviour
     public float playerSpeed;
     Quaternion lookQuaternion;
     [Header("trolling")]
-
-
+    public GameObject obj1;
+    public GameObject obj2;
+    [Header("lights")]
+    public Light2D light1;
+    public Light2D light2;
+    public Light2D light3;
+    float duration = 1.0f;
+    Color color0 = Color.red;
+    Color color1 = Color.blue;
+    Color color2 = Color.green;
+    Color color3 = Color.yellow;
+    Color color4 = Color.cyan;
+    Color color5 = Color.magenta;
     [Header("anims")]
     public Animator animator;
 
@@ -32,12 +46,20 @@ public class KermitScript2 : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+ 
         savedlocalScale = transform.localScale;
 
     }
     // Update is called once per frame
     void Update()
+
     {    ////////////////////////////////////////////////////////////////////////////            <<--------- scale rot
+        float t = Mathf.PingPong(Time.time, duration) / duration;
+        light1.color = Color.Lerp(color0, color1, t);
+        light2.color = Color.Lerp(color2, color3, t);
+        light3.color = Color.Lerp(color4, color5, t);
+
+
         if (rb.velocity.x > 0.001f)
         {
             transform.localScale = new Vector2(savedlocalScale.x, savedlocalScale.y);
@@ -50,13 +72,14 @@ public class KermitScript2 : MonoBehaviour
 
             m_FacingLeft = true;
             m_FacingRight = false;
+            
         }
 
         ////////////////////////////////////////////////////////////////////////////            <<--------- movement
         var horizontalInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(horizontalInput * playerSpeed, rb.velocity.y);
 
-       
+    
 
         //if (Input.GetKey(KeyCode.A))
         //{       //when a pressed move left
@@ -132,6 +155,9 @@ public class KermitScript2 : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if (collision.gameObject.CompareTag("rockS"))
+        {
+            obj1.SetActive(true);
+        }
     }
 }
