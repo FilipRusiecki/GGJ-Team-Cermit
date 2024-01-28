@@ -13,6 +13,6 @@ public class loading2 : MonoBehaviour
     IEnumerator loadingS()
     {
         yield return new WaitForSeconds(2.5f);
-        SceneManager.LoadScene("game2");
+        SceneManager.LoadScene("game3");
     }
 }
